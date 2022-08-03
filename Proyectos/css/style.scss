@@ -534,6 +534,28 @@ a:focus {
   }
 }
 
+.why_section.layout_padding {
+  .titulo-tablas {
+    font-family: 'Montserrat', sans-serif;
+    color: $black;
+    background-color: $white;
+    overflow-x: hidden;
+    position: relative;
+    margin-bottom: 0;
+    font-size: 2.5rem;
+    font-weight: bold;
+  }
+  
+  .table {
+    text-align: center;
+    margin-top: 45px;
+    background-color: $primary2;
+    padding: 25px;
+    border-radius: 5px;
+    color: $white;
+  }
+}
+
 //end why section
 
 // subscribe section

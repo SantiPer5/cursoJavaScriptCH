@@ -1,7 +1,7 @@
 //SE AÑADE LO QUE PIDE LA COSIGNA DE LA PRE-ENTREGA 1
 
 //OBJ
-class Producto {
+/* class Producto {
     constructor(producto) {
         this.id = producto.id;
         this.marca = producto.marca;
@@ -148,15 +148,48 @@ console.table(carrito);
 
 
 
-
+ */
 
 /* ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- */
 //HASTA ACA
 
+const form = document.getElementById('formulario')
 
+form.addEventListener('submit', (e) => { // e es el parametro de evento
+    e.preventDefault();
+    
+    const formulario = e.target;
 
+    const mensaje = {
+        nombre: formulario[1].value,
+        email: formulario[2].value,
+        asunto: formulario[3].value,
+        texto: formulario[4].value,
+    }
+    console.log(mensaje);
 
+/*     console.log(e.target[1].value); //name
+    console.log(e.target[2].value); //email
+    console.log(e.target[3].value); //asunto
+    console.log(e.target[4].value); //mensaje
+    console.log('submit'); */
 
+    const tabla = document.getElementById('tabla');
+    const tr = document.createElement('tr');
+    
+    tr.innerHTML = `
+        <td>${mensaje.nombre}</td>
+        <td>${mensaje.email}</td>
+        <td>${mensaje.asunto}</td>
+        <td>${mensaje.texto}</td>
+    `;
+    
+    tabla.append(tr);
+
+/*     document.querySelectorAll('#formulario input').forEach((input) => {
+        input.value = '';
+    }); */
+});
 
 // to get current year
 function getYear() {

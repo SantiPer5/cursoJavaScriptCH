@@ -562,6 +562,26 @@ a:focus {
   fill: #ffffff;
 }
 
+.why_section.layout_padding .titulo-tablas {
+  font-family: 'Montserrat', sans-serif;
+  color: #000000;
+  background-color: #ffffff;
+  overflow-x: hidden;
+  position: relative;
+  margin-bottom: 0;
+  font-size: 2.5rem;
+  font-weight: bold;
+}
+
+.why_section.layout_padding .table {
+  text-align: center;
+  margin-top: 45px;
+  background-color: #002c3e;
+  padding: 25px;
+  border-radius: 5px;
+  color: #ffffff;
+}
+
 .subscribe_section {
   text-align: center;
 }
