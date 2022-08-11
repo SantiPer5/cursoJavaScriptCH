@@ -153,7 +153,28 @@ console.table(carrito);
 /* ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- */
 //HASTA ACA
 
+
+//clase de eventoss 
+const mensajeString = localStorage.getItem('mensaje');
+const mensajeParseado = JSON.parse(mensajeString);
+console.log(mensajeParseado);
+
 const form = document.getElementById('formulario')
+
+const tabla = document.getElementById('tabla');
+
+mensajeParseado.forEach((mensaje) => {
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+        <td>${mensaje.nombre}</td>
+        <td>${mensaje.email}</td>
+        <td>${mensaje.asunto}</td>
+        <td>${mensaje.texto}</td>
+    `;
+    
+    tabla.append(tr);
+})
+
 
 form.addEventListener('submit', (e) => { // e es el parametro de evento
     e.preventDefault();
@@ -168,13 +189,10 @@ form.addEventListener('submit', (e) => { // e es el parametro de evento
     }
     console.log(mensaje);
 
-/*     console.log(e.target[1].value); //name
-    console.log(e.target[2].value); //email
-    console.log(e.target[3].value); //asunto
-    console.log(e.target[4].value); //mensaje
-    console.log('submit'); */
+
 
     const tabla = document.getElementById('tabla');
+    
     const tr = document.createElement('tr');
     
     tr.innerHTML = `
@@ -186,10 +204,24 @@ form.addEventListener('submit', (e) => { // e es el parametro de evento
     
     tabla.append(tr);
 
+    const mensajeString = localStorage.getItem('mensaje');
+    let mensajeParseado = [];
+    if (mensajeString) {
+        mensajeParseado = JSON.parse(mensajeString);
+    }
+
+    mensajeParseado.push(mensaje);
+
+    localStorage.setItem('mensaje', JSON.stringify(mensajeParseado));
+
+
+
 /*     document.querySelectorAll('#formulario input').forEach((input) => {
         input.value = '';
     }); */
 });
+//clase de eventoss fin. 
+
 
 // to get current year
 function getYear() {
