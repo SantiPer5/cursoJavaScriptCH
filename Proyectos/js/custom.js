@@ -157,13 +157,27 @@ console.table(carrito);
 //clase de eventoss 
 const mensajeString = localStorage.getItem('mensaje');
 const mensajeParseado = JSON.parse(mensajeString);
-console.log(mensajeParseado);
 
 const form = document.getElementById('formulario')
 
-const tabla = document.getElementById('tabla');
+
+const agregarElementoATabla = ({nombre, email, asunto, texto}) => {
+    const tabla = document.getElementById('tabla');
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+        <td>${nombre}</td>
+        <td>${email}</td>
+        <td>${asunto}</td>
+        <td>${texto}</td>
+    `;
+    tabla.append(tr);
+}
 
 mensajeParseado.forEach((mensaje) => {
+    agregarElementoATabla(mensaje);
+})
+
+/* mensajeParseado.forEach((mensaje) => {
     const tr = document.createElement('tr');
     tr.innerHTML = `
         <td>${mensaje.nombre}</td>
@@ -173,8 +187,7 @@ mensajeParseado.forEach((mensaje) => {
     `;
     
     tabla.append(tr);
-})
-
+}) */
 
 form.addEventListener('submit', (e) => { // e es el parametro de evento
     e.preventDefault();
@@ -187,40 +200,52 @@ form.addEventListener('submit', (e) => { // e es el parametro de evento
         asunto: formulario[3].value,
         texto: formulario[4].value,
     }
-    console.log(mensaje);
-
-
-
-    const tabla = document.getElementById('tabla');
     
-    const tr = document.createElement('tr');
+    const btn = document.getElementById('botonEnviar').addEventListener('click', () => {
+        //clase librerias
+        Swal.fire({
+            title: 'Estas seguro de enviar el mensaje?',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Si',
+            cancelButtonText: 'No',
+        }).then((resultado) => {
+            if (resultado.isConfirmed) {
+                agregarElementoATabla(mensaje);
     
-    tr.innerHTML = `
-        <td>${mensaje.nombre}</td>
-        <td>${mensaje.email}</td>
-        <td>${mensaje.asunto}</td>
-        <td>${mensaje.texto}</td>
-    `;
+                const mensajeString = localStorage.getItem('mensaje');
+                
+                let mensajeParseado = [];
+                if (mensajeString) {
+                    mensajeParseado = JSON.parse(mensajeString);
+                }
     
-    tabla.append(tr);
-
-    const mensajeString = localStorage.getItem('mensaje');
-    let mensajeParseado = [];
-    if (mensajeString) {
-        mensajeParseado = JSON.parse(mensajeString);
-    }
-
-    mensajeParseado.push(mensaje);
-
-    localStorage.setItem('mensaje', JSON.stringify(mensajeParseado));
-
-
-
-/*     document.querySelectorAll('#formulario input').forEach((input) => {
-        input.value = '';
-    }); */
+                mensajeParseado.push(mensaje);
+    
+                localStorage.setItem('mensaje', JSON.stringify(mensajeParseado));
+    
+    
+    
+                document.querySelectorAll('#formulario input').forEach((input) => {
+                    input.value = '';
+                });
+    
+                Swal.fire({
+                    title: 'Listo!!',
+                    icon: 'success',
+                    text: 'El mensaje fue enviado correctamente.'
+                })
+            }
+        })
+    });
+    
+    
+    
 });
 //clase de eventoss fin. 
+
+
+
 
 
 // to get current year
