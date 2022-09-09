@@ -1,11 +1,13 @@
 
-//clase de eventoss 
-const mensajeString = localStorage.getItem('mensaje');
+const mensajeString = localStorage.getItem('mensaje'); // storage 
 const mensajeParseado = JSON.parse(mensajeString);
 
 const form = document.getElementById('form')
 
 
+
+
+//objeto que se utiliza para mostrar elementos a la tabla
 const agregarElementoATabla = ({ nombre, email, asunto, texto }) => {
     const tabla = document.getElementById('tabla');
     const tr = document.createElement('tr');
@@ -22,12 +24,15 @@ mensajeParseado.forEach((mensaje) => {
     agregarElementoATabla(mensaje);
 })
 
-//fetch
+
+
+// Emailjs es una API que permite enviar correos, en este caso se utiliza para enviar el formulario a un correo particular
+//https://www.emailjs.com/
 
 const btn = document.getElementById('button');
 
 document.getElementById('form')
-    .addEventListener('submit', function (event) {
+    .addEventListener('submit', function (event) { // se utlizan eventos para que se ejecute la funcion cuando se presione el boton
         event.preventDefault();
 
         btn.value = 'Enviando...';
@@ -37,14 +42,27 @@ document.getElementById('form')
 
         emailjs.sendForm(serviceID, templateID, this)
             .then(() => {
-                btn.value = 'Send Email';
-                alert('Sent!');
+                btn.value = 'Enviar'; //sweetalert2 es una libreria que permite mostrar mensajes de alerta
+                Swal.fire({ //sweetalert2 para mostrar un mensaje de exito
+                    position: 'top-end',
+                    icon: 'success',
+                    title: 'Tu mensaje ha sido enviado :)',
+                    showConfirmButton: false,
+                    timer: 1500
+                });
             }, (err) => {
                 btn.value = 'Send Email';
-                alert(JSON.stringify(err));
+                Swal.fire({ //sweetalert2 para mostrar un mensaje de error
+                    icon: 'error',
+                    title: 'Error al enviar el mensaje :(',
+                    text: 'Something went wrong!',
+                    footer: '<a href="#">Por que sucede esto?</a>'
+                });
             });
     });
 
+
+// evento que agrega elemntos a la tabla
 form.addEventListener('submit', (e) => { // e es el parametro de evento
     e.preventDefault();
 
@@ -57,54 +75,24 @@ form.addEventListener('submit', (e) => { // e es el parametro de evento
         texto: formulario[4].value,
     }
 
-    const btn = document.getElementById('botonEnviar').addEventListener('click', () => {
-        //clase librerias
-        Swal.fire({
-            title: 'Estas seguro de enviar el mensaje?',
-            icon: 'warning',
-            showCancelButton: true,
-            confirmButtonText: 'Si',
-            cancelButtonText: 'No',
-        }).then((resultado) => {
-            if (resultado.isConfirmed) {
-                agregarElementoATabla(mensaje);
+    agregarElementoATabla(mensaje);
 
-                const mensajeString = localStorage.getItem('mensaje');
-
-                let mensajeParseado = [];
-                if (mensajeString) {
-                    mensajeParseado = JSON.parse(mensajeString);
-                }
-
-                mensajeParseado.push(mensaje);
-
-                localStorage.setItem('mensaje', JSON.stringify(mensajeParseado));
-
-
-
-                document.querySelectorAll('#formulario input').forEach((input) => {
-                    input.value = '';
-                });
-
-                Swal.fire({
-                    title: 'Listo!!',
-                    icon: 'success',
-                    text: 'El mensaje fue enviado correctamente.'
-                })
-            }
-        })
+    const mensajeString = localStorage.getItem('mensaje');
+    let mensajeParseado = [];
+    if (mensajeString) {
+            mensajeParseado = JSON.parse(mensajeString);
+    }
+    
+    mensajeParseado.push(mensaje);
+    
+    localStorage.setItem('mensaje', JSON.stringify(mensajeParseado));
+    document.querySelectorAll('#formulario input').forEach((input) => {
+            input.value = '';
     });
-
-
-
 });
-//clase de eventoss fin. 
 
 
-
-
-
-// to get current year
+// para obtener el año actual
 function getYear() {
     var currentDate = new Date();
     var currentYear = currentDate.getFullYear();
@@ -140,14 +128,4 @@ $(".client_owl-carousel").owlCarousel({
     }
 });
 
-
-
-/** google_map js **/
-function myMap() {
-    var mapProp = {
-        center: new google.maps.LatLng(40.712775, -74.005973),
-        zoom: 18,
-    };
-    var map = new google.maps.Map(document.getElementById("googleMap"), mapProp);
-}
 
