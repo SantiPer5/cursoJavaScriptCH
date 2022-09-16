@@ -1,8 +1,51 @@
 
-const mensajeString = localStorage.getItem('mensaje'); // storage 
-const mensajeParseado = JSON.parse(mensajeString);
+const sneakers = document.getElementById('sneakers-section');
 
-const form = document.getElementById('form')
+
+
+
+fetch('../js/data.json')
+    .then((res) => res.json())
+    .then((data) => {
+
+        data.forEach((producto) => {
+            const div = document.createElement('div');
+            div.className = 'col-sm-6 col-md-4 col-lg-3';
+            div.innerHTML = `
+            <div class="box">
+            <div class="option_container">
+                        <div class="options">
+                           <a href="" class="option1">
+                           Añadir al carrito
+                           </a>
+                           <a href="" class="option2">
+                           Comprar
+                           </a>
+                        </div>
+                     </div>
+                     <div class="img-box">
+                        <img src="${producto.img}" alt="">
+                     </div>
+                     <div class="detail-box">
+                        <h5>
+                           ${producto.name}
+                        </h5>
+                        <h6>
+                           $${producto.price}
+                        </h6>
+                     </div>
+                    </div>
+            `;
+            sneakers.append(div);
+        })
+    });
+
+
+
+const mensajeString = localStorage.getItem('mensaje'); // storage 
+const mensajeParseado = JSON.parse(mensajeString) || [];//correccion del localStorage
+
+const form = document.getElementById('form');
 
 
 
